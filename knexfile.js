@@ -3,10 +3,14 @@
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: 'sqlite3', // Configuração do banco de dados utilizado
     connection: {
-      filename: './src/database/db.sqlite'
-    }
+      filename: './src/database/db.sqlite' //Configuraçao de pasta
+    },
+    migrations: {
+      directory: './src/database/migrations' // Configuração de pasta
+    },
+    useNullAsDefault: true, // Configuração para usar em default 
   },
 
   staging: {
