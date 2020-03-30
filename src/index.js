@@ -1,3 +1,4 @@
+// Esqueci de dar npm init -y
 //Importando as funcionalidades do express
 
 const express = require('express'); // Importando o módulo express pra dentro da variável express
