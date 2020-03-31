@@ -6,6 +6,13 @@ const connection = require('./database/connection') // Fazendo a conexão com o 
 
 const routes = express.Router() // Retirando o módulo de rotas em uma nova variável
 
+
+routes.get('/ongs', async (request, response) => { // Listando as ongs cadastradas
+    const ongs = await connection('ongs').select('*');
+
+    return response.json(ongs)
+}); 
+
 routes.post('/ongs', async (request, response) => {      //Criando a primeira rota da aplicação
     const { name, email, whatsapp, city, uf } = request.body; // Preenchimento do cadastro
 
