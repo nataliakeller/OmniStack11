@@ -11,6 +11,7 @@ const routes = express.Router(); // Retirando o módulo de rotas em uma nova var
 
 routes.get('/incidents', IncidentController.index);
 routes.post('/incidents', IncidentController.create);
+routes.delete('/incidents/:id', IncidentController.delete);
 
 routes.get('/ongs', OngController.index);
 routes.post('/ongs', OngController.create);
