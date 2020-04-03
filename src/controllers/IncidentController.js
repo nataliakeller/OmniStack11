@@ -6,9 +6,17 @@ module.exports = {
         const [ count ] = await connection('incidents').count(); // Contagem do número de casos
 
         const incidents = await connection('incidents')
+            .join('ongs' , 'ongs.id', '=', 'incidents.ong_id') // Retorna os dados das ongs relacionados aos casos
             .limit(5)                 //Paginação
             .offset((page - 1 ) * 5) // Paginação
-            .select('*');
+            .select([
+                'incidents.*',
+                'ongs.name',
+                'ongs.email',
+                'ongs.whatsapp',
+                'ongs.city',
+                'ongs.uf'
+            ]); // Selecionando os dados que quero ser mostrado ~por motivos de sobreposição do id do incident~
         
         response.header('X-Total-Count', count['count(*)']); // Retornando no cabeçalho o número de casos
         
