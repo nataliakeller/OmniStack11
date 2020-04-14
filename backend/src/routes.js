@@ -13,9 +13,28 @@ const connection = require('./database/connection'); // Fazendo a conexão com o
 
 const routes = express.Router(); // Retirando o módulo de rotas em uma nova variável
 
-routes.get('/incidents', IncidentController.index);
-routes.post('/incidents', IncidentController.create);
-routes.delete('/incidents/:id', IncidentController.delete);
+routes.get('/incidents', celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+        page: Joi.number(),
+    })
+}), IncidentController.index);
+
+routes.post('/incidents', celebrate({
+    [Segments.HEADERS]: Joi.object({
+        authorization: Joi.string().required(),
+    }).unknown(),
+    [Segments.BODY]: Joi.object().keys({
+        title: Joi.string().required(),
+        description: Joi.string().required(),
+        value: Joi.number().required(),
+    })
+}), IncidentController.create);
+
+routes.delete('/incidents/:id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().required(),
+    })
+}) , IncidentController.delete);
 
 routes.get('/ongs', OngController.index);
 routes.post('/ongs', celebrate({
@@ -25,7 +44,6 @@ routes.post('/ongs', celebrate({
         whatsapp: Joi.number().required().min(10),
         city: Joi.string().required(),
         uf: Joi.string().required().length(2),
-
     })
 }), OngController.create);
 
@@ -35,6 +53,10 @@ routes.get('/profile', celebrate({
     }).unknown(),
 }) , ProfileController.index);
 
-routes.post('/sessions', SessionController.create);
+routes.post('/sessions', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        id: Joi.string().required(),
+    })
+}), SessionController.create);
 
 module.exports = routes; // exportando as rotas
