@@ -1,3 +1,0 @@
-// Installed axios (client http)
-
-//celebrate - biblioteca para testes
